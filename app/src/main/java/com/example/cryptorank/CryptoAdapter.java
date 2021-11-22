@@ -1,15 +1,24 @@
 package com.example.cryptorank;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
+import java.util.Locale;
 
 public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.ViewHolder>{
     private Context context;
@@ -33,9 +42,22 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.ViewHolder
 
         model model = list.get(position);
 
-        holder.symbol.setText(model.getSymbol());
+        int drawableid = context.getResources().getIdentifier(model.getSymbol().toLowerCase(),"drawable",context.getPackageName());
+        if(drawableid!=0){
+            holder.icon.setImageResource(drawableid);
+        }else{
+            holder.icon.setImageResource(R.drawable.defaulticon);
+        }
+
         holder.name.setText(model.getName());
-        holder.price.setText(String.valueOf(model.getPriceUsd()));
+
+        holder.price.setText("$"+String.valueOf(model.getPriceUsd()));
+
+        if(Float.parseFloat(model.getChangePercent24Hr()) < 0){
+            holder.changepercent.setTextColor(Color.RED);
+        }else{
+            holder.changepercent.setTextColor(Color.GREEN);
+        }
         holder.changepercent.setText(String.valueOf(model.getChangePercent24Hr()));
     }
 
@@ -47,10 +69,11 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView  symbol, name, price, changepercent;
+        public ImageView icon;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            symbol = itemView.findViewById(R.id.symbol);
+            icon = itemView.findViewById(R.id.cryptoIcon);
             name = itemView.findViewById(R.id.name);
             price =  itemView.findViewById(R.id.price);
             changepercent = itemView.findViewById(R.id.change_percent);

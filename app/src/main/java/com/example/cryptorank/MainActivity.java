@@ -1,5 +1,7 @@
 package com.example.cryptorank;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Method;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,23 +61,22 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.setMessage("loading...");
         progressDialog.show();
 
-
-
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,url,null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
                     try{
                         JSONArray jsonArray = response.getJSONArray("data");
-                        Log.e( "hello: ", String.valueOf(jsonArray.length()));
+                        Log.e( "json array: ", String.valueOf(response.getJSONArray("data")));
                         for(int i = 0; i < jsonArray.length(); i++){
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         model model = new model();
+                        DecimalFormat df = new DecimalFormat("###.##");
 
                         model.setName(jsonObject.getString("name"));
-                        model.setPriceUsd(jsonObject.getDouble("priceUsd"));
+                        model.setPriceUsd(df.format(jsonObject.getDouble("priceUsd")));
                         model.setSymbol(jsonObject.getString("symbol"));
-                        model.setChangePercent24Hr(jsonObject.getDouble("changePercent24Hr"));
+                        model.setChangePercent24Hr(df.format(jsonObject.getDouble("changePercent24Hr")));
 
                         modelList.add(model);
                     }

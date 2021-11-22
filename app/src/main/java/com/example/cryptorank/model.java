@@ -2,11 +2,11 @@ package com.example.cryptorank;
 
 public class model {
     private String name, symbol;
-    private double priceUsd, changePercent24Hr;
+    private String priceUsd, changePercent24Hr;
 
     public model(){
     };
-    public model( String symbol, String name, double priceUsd, double changePercent24Hr) {
+    public model( String symbol, String name, String priceUsd, String changePercent24Hr) {
 
         this.symbol = symbol;
         this.name = name;
@@ -30,19 +30,19 @@ public class model {
         this.symbol = symbol;
     }
 
-    public double getChangePercent24Hr() {
+    public String getChangePercent24Hr() {
         return changePercent24Hr;
     }
 
-    public void setChangePercent24Hr(double changePercent24Hr) {
+    public void setChangePercent24Hr(String changePercent24Hr) {
         this.changePercent24Hr = changePercent24Hr;
     }
 
-    public double getPriceUsd() {
+    public String getPriceUsd() {
         return priceUsd;
     }
 
-    public void setPriceUsd(double priceUsd) {
+    public void setPriceUsd(String priceUsd) {
         this.priceUsd = priceUsd;
     }
 
